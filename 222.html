@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <ul id="slides">
+            <li class="slide showing">Slide 1</li>
+            <li class="slide">Slide 2</li>
+            <li class="slide">Slide 3</li>
+            <li class="slide">Slide 4</li>
+            <li class="slide">Slide 5</li>
+        </ul>
+            <div style="text-align:center">
+              <span class="dot inblack"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <!-- <span class="dot"></span> -->
+            </div>
+        <button class="controls" id="pause">Pause</button>
+    </body>
+
+    <style>
+        /*
+essential styles:
+these make the slideshow work
+*/
+#slides{
+	position: relative;
+	height: 150px;
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+}
+
+.slide{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	z-index: 1;
+
+	-webkit-transition: opacity 1s;
+	-moz-transition: opacity 1s;
+	-o-transition: opacity 1s;
+	transition: opacity 1s;
+}
+
+.showing{
+	opacity: 1;
+	z-index: 2;
+}
+
+
+
+/*
+non-essential styles:
+just for appearance; change whatever you want
+*/
+
+.slide{
+	font-size: 40px;
+	padding: 40px;
+	box-sizing: border-box;
+	background: #333;
+	color: #fff;
+}
+
+.slide:nth-of-type(1){
+	background: red;
+}
+.slide:nth-of-type(2){
+	background: orange;
+}
+.slide:nth-of-type(3){
+	background: green;
+}
+.slide:nth-of-type(4){
+	background: blue;
+}
+.slide:nth-of-type(5){
+	background: purple;
+}
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+.inblack{
+    background-color: black;
+}
+
+.dot:hover{
+  background-color:black;
+}
+    </style>
+<!-- ##############################################################K -->
+<script>
+    var slides = document.querySelectorAll('#slides .slide');
+var currentSlide = 0;
+var slideInterval = setInterval(nextSlide,2000);
+var dots=document.getElementsByClassName("dot")
+function nextSlide(){
+	slides[currentSlide].className = 'slide';
+    dots[currentSlide].className='dot';
+	currentSlide = (currentSlide+1)%slides.length;
+	slides[currentSlide].className = 'slide showing';
+    dots[currentSlide].className='dot inblack';
+
+}
+
+var playing = true;
+var pauseButton = document.getElementById('pause');
+
+function pauseSlideshow(){
+	pauseButton.innerHTML = 'Play';
+	playing = false;
+	clearInterval(slideInterval);
+}
+
+function playSlideshow(){
+	pauseButton.innerHTML = 'Pause';
+	playing = true;
+	slideInterval = setInterval(nextSlide,2000);
+}
+
+var f=function(){
+	if(playing){ pauseSlideshow(); }
+	else{ playSlideshow(); }
+}
+
+var spanSelector=document.getElementsByClassName('dot');
+for(var i=0; i<spanSelector.length;i++){
+    spanSelector[i].onclick=f;
+}
+
+</script>
+
+
+
+</html>
